@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c7qm3b8j5xyh1"]
 
-[ext_resource type="Script" path="res://fireball.gd" id="1_fireball"]
+[ext_resource type="Script" uid="uid://cu080kxpcw6s6" path="res://fireball.gd" id="1_fireball"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_fireball"]
 radius = 0.25
@@ -26,7 +26,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_fireball")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_color = Color(1, 0.4, 0, 1)
 light_energy = 2.0
-omni_range = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_fireball")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4up3rk786do1"]
+
+[ext_resource type="PackedScene" uid="uid://cmr5h6jkdim7i" path="res://rock4.glb" id="1_x3onm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uaim1"]
+size = Vector3(1, 1.1151123, 1)
+
+[node name="rock4" instance=ExtResource("1_x3onm")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1.4039423, 0, 0, 0, 1.4039423, 0, 0, 0, 1.7460105, 0, 0.08080552, 0)
+shape = SubResource("BoxShape3D_uaim1")

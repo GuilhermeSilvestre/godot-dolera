@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cndfcyg6k0w3b"
-path.s3tc="res://.godot/imported/arenafloor_rockfloor.jpg-53a1768e0bef1dff942ef758983e3106.s3tc.ctex"
+uid="uid://cg148loupouf3"
+path.s3tc="res://.godot/imported/arenafloor_v3_rockfloor.jpg-361fe02359dcf17850f86c8ee777dc11.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://arenafloor_rockfloor.jpg"
-dest_files=["res://.godot/imported/arenafloor_rockfloor.jpg-53a1768e0bef1dff942ef758983e3106.s3tc.ctex"]
+source_file="res://arenafloor_v3_rockfloor.jpg"
+dest_files=["res://.godot/imported/arenafloor_v3_rockfloor.jpg-361fe02359dcf17850f86c8ee777dc11.s3tc.ctex"]
 
 [params]
 

@@ -8,6 +8,8 @@ const SPEED = 9.0
 var direction : Vector3
 var next_position : Vector3
 var fireball_scene = preload("res://fireball.tscn")
+var fireball_sound = preload("res://Sounds/fireballsound.mp3")
+
 
 func _physics_process(delta):
 
@@ -32,6 +34,12 @@ func move_character_click(position : Vector3):
 func cast_fireball():
 	var fireball = fireball_scene.instantiate()
 	get_parent().add_child(fireball)
+	
+	#Play sound
+	var player = AudioStreamPlayer3D.new()  
+	player.stream = fireball_sound
+	add_child(player)
+	player.play()
 
 	# Calculate forward direction from warlock's Y rotation
 	var forward = Vector3(sin(warlock.rotation.y), 0, cos(warlock.rotation.y))

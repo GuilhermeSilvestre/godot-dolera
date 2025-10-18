@@ -1,9 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene load_steps=17 format=3 uid="uid://bxg0ji4jcia63"]
 
 [ext_resource type="Script" uid="uid://dbrkaqpw5847g" path="res://camera_3d.gd" id="1_u52ul"]
 [ext_resource type="Script" uid="uid://b7bjo05xakuo6" path="res://character_body_3d.gd" id="2_vonw3"]
 [ext_resource type="PackedScene" uid="uid://bnokrnkf6wqrg" path="res://warlock1.glb" id="3_oi3di"]
-[ext_resource type="PackedScene" uid="uid://c1bqiph38gfd1" path="res://arenafloor.glb" id="4_0b4ue"]
+[ext_resource type="PackedScene" uid="uid://cofcf2fgyf78n" path="res://arenafloor_v3.glb" id="5_f2txt"]
+[ext_resource type="PackedScene" uid="uid://c4up3rk786do1" path="res://rock_2.tscn" id="6_n6hdu"]
+[ext_resource type="PackedScene" uid="uid://cuke5p6hstj4p" path="res://rock_3.tscn" id="7_km5ld"]
+[ext_resource type="PackedScene" uid="uid://o0axea3p8c5c" path="res://rock_1.tscn" id="8_i2t4f"]
+[ext_resource type="PackedScene" uid="uid://l3j1u0s4itku" path="res://pilar.tscn" id="8_km5ld"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5xgho"]
 
@@ -62,10 +66,11 @@ shape = SubResource("CapsuleShape3D_u52ul")
 transform = Transform3D(0.2279222, 0, 0, 0, 0.2279222, 0, 0, 0, 0.2279222, 0.002216339, -0.41375613, -0.03330028)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(2.6717615, 0, 0, 0, 1, 0, 0, 0, 2.6717615, 0, 0, 0)
 navigation_mesh = SubResource("NavigationMesh_u52ul")
 
-[node name="arenafloor" parent="NavigationRegion3D" instance=ExtResource("4_0b4ue")]
-transform = Transform3D(1.9199038, 0, 0, 0, 1, 0, 0, 0, 1.9199038, 0, 0, 0)
+[node name="arenafloor_v3" parent="NavigationRegion3D" instance=ExtResource("5_f2txt")]
+transform = Transform3D(1.9257027, 0, 0, 0, 1, 0, 0, 0, 1.9257027, -0.019557, 0.01999998, -0.04010415)
 
 [node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D"]
 visible = false
@@ -76,3 +81,39 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_vonw3")
+
+[node name="rock1" parent="." instance=ExtResource("8_i2t4f")]
+transform = Transform3D(0.049521647, -0.7121374, 1.302298, 1.3219966, 0.3653536, 0.12642385, -0.34304893, 1.3051492, 0.6751916, -14.783147, 0.7738087, 16.056726)
+
+[node name="rock3" parent="." instance=ExtResource("8_i2t4f")]
+transform = Transform3D(0.049521647, -0.7121374, 1.302298, 1.3219966, 0.3653536, 0.12642385, -0.34304893, 1.3051492, 0.6751916, 14.534194, 0.7738087, -4.0311966)
+
+[node name="rock2" parent="." instance=ExtResource("8_i2t4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.337636, 0.23405123, 18.642136)
+
+[node name="rock4" parent="." instance=ExtResource("6_n6hdu")]
+transform = Transform3D(1, 0, 0, 0, 0.9869347, -0.08007607, 0, 0.060640153, 1.3032595, -7.2549205, 0.5913309, 15.362923)
+
+[node name="rock8" parent="." instance=ExtResource("6_n6hdu")]
+transform = Transform3D(2.2462475, 0, 0, 0, 2.2168996, -0.17987067, 0, 0.1362128, 2.9274435, -16.227287, 0.5913309, -3.244501)
+
+[node name="rock5" parent="." instance=ExtResource("7_km5ld")]
+transform = Transform3D(0.026002532, 0.99966186, 0, -0.9721225, 0.025286196, -0.23310593, -0.2330271, 0.0060613444, 0.9724513, 0.28782034, 0.86605215, 14.363171)
+
+[node name="rock6" parent="." instance=ExtResource("6_n6hdu")]
+transform = Transform3D(1, 0, 0, 0, 0.9869347, -0.08007607, 0, 0.060640153, 1.3032595, -7.2549205, 0.5913309, -10.157259)
+
+[node name="rock7" parent="." instance=ExtResource("7_km5ld")]
+transform = Transform3D(0.026002532, 0.99966186, 0, -0.9721225, 0.025286196, -0.23310593, -0.2330271, 0.0060613444, 0.9724513, 0.28782034, 0.86605215, -11.157011)
+
+[node name="Pilar2" parent="." instance=ExtResource("8_km5ld")]
+transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, -11.134715, 0.007399082, 5.883669)
+
+[node name="Pilar4" parent="." instance=ExtResource("8_km5ld")]
+transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, 9.338658, 0.007399082, 7.2969913)
+
+[node name="Pilar5" parent="." instance=ExtResource("8_km5ld")]
+transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, 16.09334, 0.007399082, 18.538124)
+
+[node name="Pilar3" parent="." instance=ExtResource("8_km5ld")]
+transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, -4.4408197, 0.007399082, -7.7845774)
