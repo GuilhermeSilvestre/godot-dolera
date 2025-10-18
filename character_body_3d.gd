@@ -7,6 +7,7 @@ const SPEED = 9.0
 
 var direction : Vector3
 var next_position : Vector3
+var fireball_scene = preload("res://fireball.tscn")
 
 func _physics_process(delta):
 
@@ -21,6 +22,20 @@ func _physics_process(delta):
 
 	move_and_slide()
 
+	# Cast fireball on right-click
+	if Input.is_action_just_pressed("cast_fireball"):
+		cast_fireball()
+
 func move_character_click(position : Vector3):
 	next_position = position
-	print("Target:", position)
+
+func cast_fireball():
+	var fireball = fireball_scene.instantiate()
+	get_parent().add_child(fireball)
+
+	# Calculate forward direction from warlock's Y rotation
+	var forward = Vector3(sin(warlock.rotation.y), 0, cos(warlock.rotation.y))
+
+	# Spawn fireball in front of the warlock
+	fireball.global_position = global_position + Vector3(0, 1, 0) + forward * 0.8
+	fireball.set_direction(forward)
