@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene load_steps=13 format=3 uid="uid://bxg0ji4jcia63"]
 
 [ext_resource type="Script" uid="uid://dbrkaqpw5847g" path="res://camera_3d.gd" id="1_u52ul"]
 [ext_resource type="Script" uid="uid://b7bjo05xakuo6" path="res://character_body_3d.gd" id="2_vonw3"]
+[ext_resource type="PackedScene" uid="uid://bnokrnkf6wqrg" path="res://warlock1.glb" id="3_oi3di"]
+[ext_resource type="PackedScene" uid="uid://c1bqiph38gfd1" path="res://arenafloor.glb" id="4_0b4ue"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5xgho"]
 
@@ -12,7 +14,7 @@ sky_material = SubResource("ProceduralSkyMaterial_5xgho")
 background_mode = 2
 sky = SubResource("Sky_u52ul")
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_5xgho"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u52ul"]
 
@@ -37,7 +39,7 @@ light_energy = 2.0
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("character")]
-transform = Transform3D(1, 0, 0, 0, 0.88062626, 0.47381157, 0, -0.47381157, 0.88062626, 0, 2.9738054, 4.337372)
+transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 12.627072, 8.435937)
 script = ExtResource("1_u52ul")
 character = NodePath("../CharacterBody3D")
 
@@ -48,17 +50,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("2_vonw3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_5xgho")
+visible = false
+mesh = SubResource("CapsuleMesh_oi3di")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_u52ul")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="CharacterBody3D"]
 
+[node name="warlock1" parent="CharacterBody3D" instance=ExtResource("3_oi3di")]
+transform = Transform3D(0.2279222, 0, 0, 0, 0.2279222, 0, 0, 0, 0.2279222, 0.002216339, -0.41375613, -0.03330028)
+
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_u52ul")
 
+[node name="arenafloor" parent="NavigationRegion3D" instance=ExtResource("4_0b4ue")]
+transform = Transform3D(1.9199038, 0, 0, 0, 1, 0, 0, 0, 1.9199038, 0, 0, 0)
+
 [node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D"]
+visible = false
 mesh = SubResource("PlaneMesh_oi3di")
 skeleton = NodePath("../..")
 
