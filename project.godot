@@ -20,6 +20,10 @@ window/size/viewport_width=1728
 window/size/viewport_height=972
 window/stretch/mode="viewport"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 click_to_move={
