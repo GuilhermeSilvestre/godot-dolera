@@ -39,7 +39,7 @@ light_energy = 2.0
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("character")]
-transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 12.627072, 8.435937)
+transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 7, 5)
 script = ExtResource("1_u52ul")
 character = NodePath("../CharacterBody3D")
 
