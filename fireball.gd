@@ -1,6 +1,6 @@
 extends Area3D
 
-const SPEED = 15.0
+const SPEED = 8.0
 const MAX_DISTANCE = 200.0
 
 var direction : Vector3

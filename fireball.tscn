@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7qm3b8j5xyh1"]
+[gd_scene load_steps=6 format=3 uid="uid://c7qm3b8j5xyh1"]
 
 [ext_resource type="Script" uid="uid://cu080kxpcw6s6" path="res://fireball.gd" id="1_fireball"]
+[ext_resource type="PackedScene" uid="uid://caapxlddqfonh" path="res://fireballv1.glb" id="2_olwj8"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_fireball"]
 radius = 0.25
@@ -20,6 +21,7 @@ radius = 0.25
 script = ExtResource("1_fireball")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_fireball")
 surface_material_override/0 = SubResource("StandardMaterial3D_fireball")
 
@@ -29,3 +31,8 @@ light_energy = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_fireball")
+
+[node name="fireballv1" parent="." instance=ExtResource("2_olwj8")]
+transform = Transform3D(0.137918, 0, 0, 0, 0.137918, 0, 0, 0, 0.137918, 0.018026471, -1.1920929e-07, -0.052820206)
+
+[editable path="fireballv1"]

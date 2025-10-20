@@ -3,7 +3,7 @@ extends CharacterBody3D
 @onready var navigation_agent_3d = $NavigationAgent3D
 @onready var warlock = $warlock1
 
-const SPEED = 9.0
+const SPEED = 7.0
 
 var direction : Vector3
 var next_position : Vector3
@@ -31,19 +31,41 @@ func _physics_process(delta):
 func move_character_click(position : Vector3):
 	next_position = position
 
+var can_cast = true  # coloque isso fora da função, no topo do script
+
 func cast_fireball():
+	if not can_cast:
+		return  # ainda em cooldown, não faz nada
+
+	can_cast = false  # bloqueia o cast até o cooldown acabar
+
 	var fireball = fireball_scene.instantiate()
 	get_parent().add_child(fireball)
 	
-	#Play sound
-	var player = AudioStreamPlayer3D.new()  
+	# 🔥 Tocar animação da fireball
+	var anim_player = fireball.get_node("fireballv1/AnimationPlayer")
+	if anim_player:
+		anim_player.play("FireballAction")
+		
+	# 🔊 Criar e tocar som (segue a fireball)
+	var player = AudioStreamPlayer3D.new()
 	player.stream = fireball_sound
-	add_child(player)
+	fireball.add_child(player)
 	player.play()
 
-	# Calculate forward direction from warlock's Y rotation
-	var forward = Vector3(sin(warlock.rotation.y), 0, cos(warlock.rotation.y))
+	# 🎯 Direção baseada na rotação do mago
+	var forward = warlock.transform.basis.z.normalized()
 
-	# Spawn fireball in front of the warlock
-	fireball.global_position = global_position + Vector3(0, 1, 0) + forward * 0.8
-	fireball.set_direction(forward)
+	# 📍 Posição inicial
+	fireball.global_position = warlock.global_position + Vector3(0, 1, 0) + forward * 0.8
+
+	# 🧭 Orientação da fireball
+	fireball.look_at(fireball.global_position + forward, Vector3.UP)
+
+	# 🚀 Direção no script
+	if fireball.has_method("set_direction"):
+		fireball.set_direction(forward)
+
+	# 🕒 Espera 1 segundo antes de permitir outro cast
+	await get_tree().create_timer(0.6).timeout
+	can_cast = true
