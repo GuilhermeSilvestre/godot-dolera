@@ -10,26 +10,42 @@ var next_position : Vector3
 var fireball_scene = preload("res://fireball.tscn")
 var fireball_sound = preload("res://Sounds/fireballsound.mp3")
 
+@onready var anim_player = $warlock1/AnimationPlayer
+
 
 func _physics_process(delta):
+	var target = navigation_agent_3d.get_next_path_position()
+	direction = target - global_position
+	direction.y = 0  # evita movimento vertical
 
-	navigation_agent_3d.target_position = next_position
-	direction = navigation_agent_3d.get_next_path_position() - global_position
-	velocity = direction.normalized() * SPEED
-
-	# Rotate warlock towards movement direction
 	if direction.length() > 0.1:
+		velocity = direction.normalized() * SPEED
+		
+		# Rotaciona o warlock
 		var target_rotation = atan2(direction.x, direction.z)
 		warlock.rotation.y = lerp_angle(warlock.rotation.y, target_rotation, delta * 10.0)
+		
+		# 🔥 Toca a animação de walking se não estiver tocando
+		if anim_player.current_animation != "Walking":
+			anim_player.play("Walking")
+	else:
+		velocity = Vector3.ZERO  # parado
+		
+		# Para a animação ou toca idle (se tiver)
+		if anim_player.current_animation != "Idle":
+			anim_player.play("Idle")
 
 	move_and_slide()
 
-	# Cast fireball on right-click
+	# Fireball
 	if Input.is_action_just_pressed("cast_fireball"):
 		cast_fireball()
 
-func move_character_click(position : Vector3):
+
+func move_character_click(position: Vector3):
 	next_position = position
+	navigation_agent_3d.target_position = position
+
 
 var can_cast = true  # coloque isso fora da função, no topo do script
 

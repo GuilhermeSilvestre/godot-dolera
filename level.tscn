@@ -1,11 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene load_steps=14 format=3 uid="uid://bxg0ji4jcia63"]
 
 [ext_resource type="Script" uid="uid://dbrkaqpw5847g" path="res://camera_3d.gd" id="1_u52ul"]
-[ext_resource type="Script" uid="uid://b7bjo05xakuo6" path="res://character_body_3d.gd" id="2_vonw3"]
-[ext_resource type="PackedScene" uid="uid://bnokrnkf6wqrg" path="res://warlock1.glb" id="3_oi3di"]
 [ext_resource type="PackedScene" uid="uid://cofcf2fgyf78n" path="res://arenafloor_v3.glb" id="5_f2txt"]
 [ext_resource type="PackedScene" uid="uid://c4up3rk786do1" path="res://rock_2.tscn" id="6_n6hdu"]
 [ext_resource type="PackedScene" uid="uid://cuke5p6hstj4p" path="res://rock_3.tscn" id="7_km5ld"]
+[ext_resource type="PackedScene" uid="uid://ba0njjoa2awie" path="res://warlock_character.tscn" id="7_n6hdu"]
 [ext_resource type="PackedScene" uid="uid://o0axea3p8c5c" path="res://rock_1.tscn" id="8_i2t4f"]
 [ext_resource type="PackedScene" uid="uid://l3j1u0s4itku" path="res://pilar.tscn" id="8_km5ld"]
 
@@ -17,10 +16,6 @@ sky_material = SubResource("ProceduralSkyMaterial_5xgho")
 [sub_resource type="Environment" id="Environment_vonw3"]
 background_mode = 2
 sky = SubResource("Sky_u52ul")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u52ul"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_u52ul"]
 vertices = PackedVector3Array(-9.5, 0.5, -9.5, -9.5, 0.5, 9.5, 9.5, 0.5, 9.5, 9.5, 0.5, -9.5)
@@ -45,25 +40,9 @@ shadow_enabled = true
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("character")]
 transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 7, 5)
 script = ExtResource("1_u52ul")
-character = NodePath("../CharacterBody3D")
+character = NodePath("../Warlock")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("2_vonw3")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
-visible = false
-mesh = SubResource("CapsuleMesh_oi3di")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_u52ul")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="CharacterBody3D"]
-
-[node name="warlock1" parent="CharacterBody3D" instance=ExtResource("3_oi3di")]
-transform = Transform3D(0.2279222, 0, 0, 0, 0.2279222, 0, 0, 0, 0.2279222, 0.002216339, -0.41375613, -0.03330028)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(2.6717615, 0, 0, 0, 1, 0, 0, 0, 2.6717615, 0, 0, 0)
@@ -81,6 +60,8 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_vonw3")
+
+[node name="Warlock" parent="." instance=ExtResource("7_n6hdu")]
 
 [node name="rock1" parent="." instance=ExtResource("8_i2t4f")]
 transform = Transform3D(0.049521647, -0.7121374, 1.302298, 1.3219966, 0.3653536, 0.12642385, -0.34304893, 1.3051492, 0.6751916, -14.783147, 0.7738087, 16.056726)
