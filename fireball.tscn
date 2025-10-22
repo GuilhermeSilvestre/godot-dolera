@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7qm3b8j5xyh1"]
+[gd_scene load_steps=7 format=3 uid="uid://c7qm3b8j5xyh1"]
 
 [ext_resource type="Script" uid="uid://cu080kxpcw6s6" path="res://fireball.gd" id="1_fireball"]
 [ext_resource type="PackedScene" uid="uid://caapxlddqfonh" path="res://fireballv1.glb" id="2_olwj8"]
+[ext_resource type="PackedScene" uid="uid://5eks06ia7tcs" path="res://fireballv2.glb" id="3_wdani"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_fireball"]
 radius = 0.25
@@ -34,5 +35,13 @@ shape = SubResource("SphereShape3D_fireball")
 
 [node name="fireballv1" parent="." instance=ExtResource("2_olwj8")]
 transform = Transform3D(0.137918, 0, 0, 0, 0.137918, 0, 0, 0, 0.137918, 0.018026471, -1.1920929e-07, -0.052820206)
+visible = false
+
+[node name="Fireball" parent="fireballv1" index="0"]
+transform = Transform3D(0.74667406, -0.6651901, 0, 0.6651901, 0.74667406, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="fireballv2" parent="." instance=ExtResource("3_wdani")]
+transform = Transform3D(0.14079656, 0, 0, 0, 0.14079656, 0, 0, 0, 0.14079656, 0.018994808, 0, -0.05829811)
 
 [editable path="fireballv1"]
+[editable path="fireballv2"]

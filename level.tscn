@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene load_steps=15 format=3 uid="uid://bxg0ji4jcia63"]
 
+[ext_resource type="Script" uid="uid://cwywb5ui0ityb" path="res://world_environment.gd" id="1_km5ld"]
 [ext_resource type="Script" uid="uid://dbrkaqpw5847g" path="res://camera_3d.gd" id="1_u52ul"]
 [ext_resource type="PackedScene" uid="uid://cofcf2fgyf78n" path="res://arenafloor_v3.glb" id="5_f2txt"]
 [ext_resource type="PackedScene" uid="uid://c4up3rk786do1" path="res://rock_2.tscn" id="6_n6hdu"]
@@ -31,6 +32,7 @@ data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0,
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vonw3")
+script = ExtResource("1_km5ld")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.56962454, 0.5670398, -0.59497356, -0.03796041, 0.74127394, 0.6701281, 0.8210279, -0.35913604, 0.443773, 0, 10.4082775, 13.845432)
@@ -38,7 +40,7 @@ light_energy = 2.0
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("character")]
-transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 7, 5)
+transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 7, 3.4939542)
 script = ExtResource("1_u52ul")
 character = NodePath("../Warlock")
 

@@ -51,37 +51,62 @@ var can_cast = true  # coloque isso fora da função, no topo do script
 
 func cast_fireball():
 	if not can_cast:
-		return  # ainda em cooldown, não faz nada
+		return
 
-	can_cast = false  # bloqueia o cast até o cooldown acabar
+	can_cast = false
 
+	# 1️⃣ Obter a posição do mouse no mundo 3D
+	var camera = get_viewport().get_camera_3d()
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * 1000
+
+	var space_state = get_world_3d().direct_space_state
+
+	# 2️⃣ Raycast para encontrar ponto no mundo
+	var params = PhysicsRayQueryParameters3D.new()
+	params.from = from
+	params.to = to
+	params.exclude = [warlock]
+
+	var result = space_state.intersect_ray(params)
+
+	var target_pos: Vector3
+	if result:
+		target_pos = result.position
+	else:
+		target_pos = from + camera.project_ray_normal(mouse_pos) * 10  # fallback
+
+	# 3️⃣ Girar o warlock para o mouse
+	var dir = target_pos - warlock.global_position
+	dir.y = 0
+	if dir.length() > 0:
+		var target_rotation = atan2(dir.x, dir.z)
+		warlock.rotation.y = target_rotation
+
+	# 4️⃣ Instanciar a fireball
 	var fireball = fireball_scene.instantiate()
 	get_parent().add_child(fireball)
-	
-	# 🔥 Tocar animação da fireball
-	var anim_player = fireball.get_node("fireballv1/AnimationPlayer")
-	if anim_player:
-		anim_player.play("FireballAction")
-		
-	# 🔊 Criar e tocar som (segue a fireball)
+
+	# Animação da fireball
+	var anim_player_fb = fireball.get_node("fireballv2/AnimationPlayer")
+	if anim_player_fb:
+		anim_player_fb.play("FireballAction")
+
+	# Som
 	var player = AudioStreamPlayer3D.new()
 	player.stream = fireball_sound
 	fireball.add_child(player)
 	player.play()
 
-	# 🎯 Direção baseada na rotação do mago
-	var forward = warlock.transform.basis.z.normalized()
-
-	# 📍 Posição inicial
+	# 5️⃣ Direção da fireball
+	var forward = dir.normalized()
 	fireball.global_position = warlock.global_position + Vector3(0, 1, 0) + forward * 0.8
-
-	# 🧭 Orientação da fireball
 	fireball.look_at(fireball.global_position + forward, Vector3.UP)
 
-	# 🚀 Direção no script
 	if fireball.has_method("set_direction"):
 		fireball.set_direction(forward)
 
-	# 🕒 Espera 1 segundo antes de permitir outro cast
+	# 6️⃣ Cooldown
 	await get_tree().create_timer(0.6).timeout
 	can_cast = true
