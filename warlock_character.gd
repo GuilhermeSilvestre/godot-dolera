@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @onready var navigation_agent_3d = $NavigationAgent3D
 @onready var warlock = $warlock1
+@onready var teleport_anim = $teleport/AnimationPlayer 
+@onready var anim_player = $warlock1/AnimationPlayer
 
 const SPEED = 7.0
 
@@ -11,15 +13,22 @@ var fireball_scene = preload("res://fireball.tscn")
 var fireball_sound = preload("res://Sounds/fireballsound.mp3")
 var teleport_sound = preload("res://Sounds/teleport.mp3")
 
+var is_teleporting := false  # nova flag
+
 var can_teleport := true
 const TELEPORT_COOLDOWN := 4.0
-const TELEPORT_MAX_DISTANCE := 7.0  # metros
+const TELEPORT_MAX_DISTANCE := 8.0   # metros
 const TELEPORT_DELAY := 1.0          # segundos antes de reaparecer
 
-@onready var anim_player = $warlock1/AnimationPlayer
-
+func _ready():
+	# garante que o nó teleport começa invisível
+	$teleport.visible = false
 
 func _physics_process(delta):
+	if is_teleporting:
+		velocity = Vector3.ZERO  # congela o movimento
+		return  # ignora movimento do mouse/camera
+		
 	var target = navigation_agent_3d.get_next_path_position()
 	direction = target - global_position
 	direction.y = 0  # evita movimento vertical
@@ -36,12 +45,14 @@ func _physics_process(delta):
 		
 		# 🔥 Toca a animação de walking se não estiver tocando
 		if anim_player.current_animation != "Walking":
+			anim_player.speed_scale = 2.5
 			anim_player.play("Walking")
 	else:
 		velocity = Vector3.ZERO  # parado
 		
 		# Para a animação ou toca idle (se tiver)
 		if anim_player.current_animation != "Idle":
+			anim_player.speed_scale = 1.2
 			anim_player.play("Idle")
 
 	move_and_slide()
@@ -122,10 +133,11 @@ func cast_fireball():
 
 func teleport_to_mouse():
 	if not can_teleport:
-		return  # ainda em cooldown
+		return
 
-	# 🚫 bloqueia imediatamente para evitar spam
+	$teleport.visible = true
 	can_teleport = false
+	is_teleporting = true  # ❌ bloqueia movimento
 
 	var camera = get_viewport().get_camera_3d()
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -150,25 +162,30 @@ func teleport_to_mouse():
 			target_pos = global_position + direction * TELEPORT_MAX_DISTANCE
 			target_pos.y = global_position.y
 
-		# 🌀 toca som e animação de "sumir"
+		# toca som
 		var player = AudioStreamPlayer3D.new()
 		player.stream = teleport_sound
 		add_child(player)
 		player.play()
 		player.finished.connect(player.queue_free)
 
-		if anim_player.current_animation != "Teleport":
-			anim_player.play("Teleport")
+		# animação de saída
+		if teleport_anim:
+			teleport_anim.speed_scale = 1.5
+			teleport_anim.play("Teleport1")
 
-		# 👻 some por 1 segundo
-		visible = false
+		warlock.visible = false
 		await get_tree().create_timer(TELEPORT_DELAY).timeout
 
-		# ⚡ teleporta e reaparece
+		# teleporta e reaparece
 		global_position = target_pos
 		navigation_agent_3d.target_position = global_position
-		visible = true
+		warlock.visible = true
 
-	# ⏳ espera cooldown de 5s antes de permitir novamente
+		if teleport_anim:
+			teleport_anim.play("Teleport2")
+
+	is_teleporting = false  # ✅ libera movimento
+
 	await get_tree().create_timer(TELEPORT_COOLDOWN).timeout
 	can_teleport = true
