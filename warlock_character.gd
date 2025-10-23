@@ -9,6 +9,12 @@ var direction : Vector3
 var next_position : Vector3
 var fireball_scene = preload("res://fireball.tscn")
 var fireball_sound = preload("res://Sounds/fireballsound.mp3")
+var teleport_sound = preload("res://Sounds/teleport.mp3")
+
+var can_teleport := true
+const TELEPORT_COOLDOWN := 4.0
+const TELEPORT_MAX_DISTANCE := 7.0  # metros
+const TELEPORT_DELAY := 1.0          # segundos antes de reaparecer
 
 @onready var anim_player = $warlock1/AnimationPlayer
 
@@ -17,6 +23,9 @@ func _physics_process(delta):
 	var target = navigation_agent_3d.get_next_path_position()
 	direction = target - global_position
 	direction.y = 0  # evita movimento vertical
+	
+	if Input.is_action_just_pressed("teleport"):
+		teleport_to_mouse()
 
 	if direction.length() > 0.1:
 		velocity = direction.normalized() * SPEED
@@ -110,3 +119,56 @@ func cast_fireball():
 	# 6️⃣ Cooldown
 	await get_tree().create_timer(0.6).timeout
 	can_cast = true
+
+func teleport_to_mouse():
+	if not can_teleport:
+		return  # ainda em cooldown
+
+	# 🚫 bloqueia imediatamente para evitar spam
+	can_teleport = false
+
+	var camera = get_viewport().get_camera_3d()
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * 1000
+
+	var space_state = get_world_3d().direct_space_state
+	var params = PhysicsRayQueryParameters3D.new()
+	params.from = from
+	params.to = to
+	params.exclude = [self]
+
+	var result = space_state.intersect_ray(params)
+
+	if result:
+		var target_pos = result.position
+		target_pos.y = global_position.y
+
+		var distance = global_position.distance_to(target_pos)
+		if distance > TELEPORT_MAX_DISTANCE:
+			var direction = (target_pos - global_position).normalized()
+			target_pos = global_position + direction * TELEPORT_MAX_DISTANCE
+			target_pos.y = global_position.y
+
+		# 🌀 toca som e animação de "sumir"
+		var player = AudioStreamPlayer3D.new()
+		player.stream = teleport_sound
+		add_child(player)
+		player.play()
+		player.finished.connect(player.queue_free)
+
+		if anim_player.current_animation != "Teleport":
+			anim_player.play("Teleport")
+
+		# 👻 some por 1 segundo
+		visible = false
+		await get_tree().create_timer(TELEPORT_DELAY).timeout
+
+		# ⚡ teleporta e reaparece
+		global_position = target_pos
+		navigation_agent_3d.target_position = global_position
+		visible = true
+
+	# ⏳ espera cooldown de 5s antes de permitir novamente
+	await get_tree().create_timer(TELEPORT_COOLDOWN).timeout
+	can_teleport = true
