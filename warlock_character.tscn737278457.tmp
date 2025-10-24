@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://ba0njjoa2awie"]
+
+[ext_resource type="Script" uid="uid://bohbrq8k01nby" path="res://warlock_character.gd" id="1_7ns18"]
+[ext_resource type="PackedScene" uid="uid://bnokrnkf6wqrg" path="res://warlock1.glb" id="3_la4qa"]
+[ext_resource type="PackedScene" uid="uid://cm033xfnw66cv" path="res://warlockanimation.glb" id="3_wsfr8"]
+[ext_resource type="PackedScene" uid="uid://db5b838mdfg6x" path="res://teleport.glb" id="4_0ywdy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u52ul"]
+
+[node name="WarlockCharacter" type="CharacterBody3D"]
+script = ExtResource("1_7ns18")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_oi3di")
+skeleton = NodePath("")
+
+[node name="warlock1" parent="." instance=ExtResource("3_wsfr8")]
+transform = Transform3D(0.22002621, 0, 0, 0, 0.22002621, 0, 0, 0, 0.22002621, -0.014026523, 0.62749946, -0.009108961)
+
+[node name="Skeleton3D" parent="warlock1/Armature" index="0"]
+bones/4/rotation = Quaternion(1.16048575e-07, 2.1193815e-08, 0.9141762, -0.40531692)
+bones/6/position = Vector3(-1.8793125e-08, -0.47550616, -8.881785e-16)
+bones/7/rotation = Quaternion(0.6668203, 0.2352679, 0.66682, -0.2352679)
+
+[node name="warlock1-old" parent="." instance=ExtResource("3_la4qa")]
+transform = Transform3D(0.2279222, 0, 0, 0, 0.2279222, 0, 0, 0, 0.2279222, 0.002216339, 0.58624387, -0.03330028)
+visible = false
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_u52ul")
+
+[node name="teleport" parent="." instance=ExtResource("4_0ywdy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005112648, 1, 2.067569)
+
+[node name="Teleport" parent="teleport" index="0"]
+transform = Transform3D(0.6791706, 0, 0, 0, 2.197864, 0, 0, 0, 1.0322696, 0, 0, -2.0609493)
+
+[editable path="warlock1"]
+[editable path="warlock1-old"]
+[editable path="teleport"]

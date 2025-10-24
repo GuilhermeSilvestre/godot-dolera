@@ -8,9 +8,19 @@ var distance_traveled: float = 0.0
 var moving: bool = true
 var exploded = false
 
-
 func _ready():
 	body_entered.connect(_on_body_entered)
+	
+	# Desativa detecção logo ao nascer
+	monitorable = false
+	set_deferred("monitoring", false)
+	
+	# Reativa após pequeno delay
+	#Isso evita que fireball bata no próprio warlock quando jogada pra trás 
+	await get_tree().create_timer(0.02).timeout
+	
+	monitorable = true
+	set_deferred("monitoring", true)
 
 func _process(delta):
 	if moving:
@@ -22,6 +32,7 @@ func _process(delta):
 			queue_free()
 
 func _on_body_entered(_body):
+	print("Colidiu com:", _body.name)
 	if exploded:
 		return  # já explodiu, ignora novas colisões
 	
@@ -51,3 +62,4 @@ func _on_body_entered(_body):
 
 func set_direction(dir: Vector3):
 	direction = dir.normalized()
+	
