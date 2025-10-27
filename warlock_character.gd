@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var warlock = $warlock1
 @onready var teleport_anim = $teleport/AnimationPlayer 
 @onready var anim_player = $warlock1/AnimationPlayer
+@onready var reflect_scene = preload("res://Reflect.tscn")
 
 const BASE_SPEED = 7.0
 var SPEED = BASE_SPEED
@@ -14,6 +15,7 @@ const FAST_MOVE_DURATION := 0.5       # segundos de duração
 const FAST_MOVE_COOLDOWN := 4.0       # segundos de cooldown
 var can_fast_move := true
 var is_fast_moving := false
+var can_reflect := true
 
 # 🔮 Teleporte
 var is_teleporting := false
@@ -37,6 +39,9 @@ func _ready():
 
 
 func _physics_process(delta):
+	if Input.is_action_just_pressed("reflect"):
+		spawn_reflect()
+		
 	if is_teleporting:
 		velocity = Vector3.ZERO
 		return
@@ -195,3 +200,45 @@ func fast_move():
 
 	await get_tree().create_timer(FAST_MOVE_COOLDOWN).timeout
 	can_fast_move = true
+
+func spawn_reflect():
+	if not can_reflect:
+		return  # impede spam
+
+	can_reflect = false  # entra em cooldown
+
+	var reflect = reflect_scene.instantiate()
+	get_parent().add_child(reflect)
+
+	# Descobre corretamente qual é a "frente" do Warlock
+	var forward = warlock.global_transform.basis.z
+	forward.y = 0
+	forward = forward.normalized()
+
+	# Define posição na frente do player, rente ao chão
+	var distance_from_player := 0.7
+	var vertical_offset := 0.1
+	var spawn_pos = global_position + forward * distance_from_player
+	spawn_pos.y = global_position.y + vertical_offset
+
+	# Mantém rotação sem distorcer escala
+	var basis_no_scale = warlock.global_transform.basis.orthonormalized()
+	reflect.global_transform = Transform3D(basis_no_scale, spawn_pos)
+
+	# Ajusta escala se necessário
+	reflect.scale = Vector3(2.5, 2.5, 2.5)
+
+	# Remove após 1.4 segundos
+	var timer := Timer.new()
+	timer.wait_time = 1.4
+	timer.one_shot = true
+	timer.timeout.connect(func():
+		if is_instance_valid(reflect):
+			reflect.queue_free()
+	)
+	reflect.add_child(timer)
+	timer.start()
+
+	# Espera o cooldown de 2 segundos antes de permitir novamente
+	await get_tree().create_timer(3.0).timeout
+	can_reflect = true

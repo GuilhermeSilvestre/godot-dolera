@@ -38,6 +38,7 @@ shape = SubResource("CapsuleShape3D_u52ul")
 
 [node name="teleport" parent="." instance=ExtResource("4_0ywdy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005112648, 1, 2.067569)
+visible = false
 
 [node name="Teleport" parent="teleport" index="0"]
 transform = Transform3D(0.6791706, 0, 0, 0, 2.197864, 0, 0, 0, 1.0322696, 0, 0, -2.0609493)
