@@ -17,6 +17,9 @@ var can_fast_move := true
 var is_fast_moving := false
 var can_reflect := true
 
+var can_collide := true
+var last_hit_time = 0.0
+
 # 🔮 Teleporte
 var is_teleporting := false
 var can_teleport := true
@@ -36,6 +39,7 @@ var next_position : Vector3
 
 func _ready():
 	$teleport.visible = false
+	add_to_group("player")
 
 
 func _physics_process(delta):
@@ -76,6 +80,41 @@ func _physics_process(delta):
 
 	if Input.is_action_just_pressed("cast_fireball"):
 		cast_fireball()
+		
+	# depois de move_and_slide()
+	for i in range(get_slide_collision_count()):
+		var col := get_slide_collision(i)
+		var collider := col.get_collider()
+		if collider and collider.is_in_group("enemies"):
+			_on_enemy_collision(collider)
+			break
+
+
+func _on_enemy_collision(enemy_node: Node) -> void:
+	var now = Time.get_ticks_msec() / 1000.0
+	if now - last_hit_time < 1.0:
+		return  # ainda em cooldown global de 1s
+
+	last_hit_time = now
+	print("💥 Colidiu (slide) com:", enemy_node.name)
+
+	var hurt_sound = AudioStreamPlayer3D.new()
+	hurt_sound.stream = load("res://Sounds/hurt.mp3")
+	hurt_sound.volume_db = -4
+	add_child(hurt_sound)
+	hurt_sound.play()
+	hurt_sound.finished.connect(hurt_sound.queue_free)
+
+	# Diminui velocidade temporariamente
+	var old_speed = SPEED
+	SPEED = BASE_SPEED * 0.4
+
+	# 💥 Knockback leve pra afastar do inimigo
+	var push_dir = (global_position - enemy_node.global_position).normalized()
+	global_position += push_dir * 0.5
+
+	await get_tree().create_timer(1.0).timeout
+	SPEED = old_speed
 
 
 func move_character_click(position: Vector3):
@@ -227,10 +266,18 @@ func spawn_reflect():
 
 	# Ajusta escala se necessário
 	reflect.scale = Vector3(2.5, 2.5, 2.5)
+	
+	var reflect_sound = AudioStreamPlayer3D.new()
+	reflect_sound.stream = load("res://Sounds/reflex.mp3")
+	reflect_sound.volume_db = -6
+	add_child(reflect_sound)
+	reflect_sound.play()
+	# Remove o som quando terminar
+	reflect_sound.finished.connect(reflect_sound.queue_free)
 
-	# Remove após 1.4 segundos
+	# Remove após 3.0 segundos
 	var timer := Timer.new()
-	timer.wait_time = 1.4
+	timer.wait_time = 3.0
 	timer.one_shot = true
 	timer.timeout.connect(func():
 		if is_instance_valid(reflect):
@@ -239,6 +286,7 @@ func spawn_reflect():
 	reflect.add_child(timer)
 	timer.start()
 
-	# Espera o cooldown de 2 segundos antes de permitir novamente
-	await get_tree().create_timer(3.0).timeout
+	# Espera o cooldown de 4 segundos antes de permitir novamente
+	await get_tree().create_timer(4.0).timeout
 	can_reflect = true
+	

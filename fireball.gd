@@ -9,6 +9,7 @@ var moving: bool = true
 var exploded = false
 
 func _ready():
+	add_to_group("fireballs")
 	body_entered.connect(_on_body_entered)
 	
 	# Desativa detecção logo ao nascer
@@ -33,12 +34,19 @@ func _process(delta):
 
 func _on_body_entered(_body):
 	print("Colidiu com:", _body.name)
+	
 	if exploded:
 		return  # já explodiu, ignora novas colisões
 	
 	exploded = true
-	
 	moving = false
+	
+		# 🔒 Desativa colisão imediatamente
+	monitorable = false
+	set_deferred("monitoring", false)
+	
+	if _body.is_in_group("enemies") and _body.has_method("die"):
+		_body.die()
 	
 	var anim_player = get_node("fireballv2/AnimationPlayer")
 	if anim_player:
