@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://ba0njjoa2awie"]
+[gd_scene load_steps=10 format=3 uid="uid://ba0njjoa2awie"]
 
 [ext_resource type="Script" uid="uid://bohbrq8k01nby" path="res://warlock_character.gd" id="1_7ns18"]
 [ext_resource type="PackedScene" uid="uid://bnokrnkf6wqrg" path="res://warlock1.glb" id="3_la4qa"]
 [ext_resource type="PackedScene" uid="uid://cm033xfnw66cv" path="res://warlockanimation.glb" id="3_wsfr8"]
 [ext_resource type="PackedScene" uid="uid://db5b838mdfg6x" path="res://teleport.glb" id="4_0ywdy"]
+[ext_resource type="Texture2D" uid="uid://dyvsso588paut" path="res://heart_new.png" id="5_2yhhp"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u52ul"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ywdy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ywdy"]
+font_size = 58
 
 [node name="WarlockCharacter" type="CharacterBody3D"]
 script = ExtResource("1_7ns18")
@@ -50,6 +54,47 @@ transform = Transform3D(0.0009999871, 0, 0, 0, 0.0009999871, 0, 0, 0, 0.00099998
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98632264, 0)
 shape = SubResource("CapsuleShape3D_0ywdy")
+
+[node name="dead" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU ARE DEAD"
+label_settings = SubResource("LabelSettings_0ywdy")
+
+[node name="HeartNew" type="Sprite2D" parent="."]
+position = Vector2(1393, 26)
+scale = Vector2(0.046364788, 0.04954579)
+texture = ExtResource("5_2yhhp")
+
+[node name="HeartNew2" type="Sprite2D" parent="."]
+position = Vector2(1424, 26)
+scale = Vector2(0.046364788, 0.04954579)
+texture = ExtResource("5_2yhhp")
+
+[node name="HeartNew3" type="Sprite2D" parent="."]
+position = Vector2(1454, 26)
+scale = Vector2(0.046364788, 0.04954579)
+texture = ExtResource("5_2yhhp")
+
+[node name="HeartNew4" type="Sprite2D" parent="."]
+position = Vector2(1485, 26)
+scale = Vector2(0.046364788, 0.04954579)
+texture = ExtResource("5_2yhhp")
+
+[node name="HeartNew5" type="Sprite2D" parent="."]
+position = Vector2(1516, 26)
+scale = Vector2(0.046364788, 0.04954579)
+texture = ExtResource("5_2yhhp")
 
 [editable path="warlock1"]
 [editable path="warlock1-old"]

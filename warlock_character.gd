@@ -6,8 +6,11 @@ extends CharacterBody3D
 @onready var anim_player = $warlock1/AnimationPlayer
 @onready var reflect_scene = preload("res://Reflect.tscn")
 
+
 const BASE_SPEED = 7.0
 var SPEED = BASE_SPEED
+var life = 5
+var hearts_hidden := false
 
 # 🚀 Configurações do Fast Move
 const FAST_MOVE_SPEED := 17.0
@@ -40,6 +43,7 @@ var next_position : Vector3
 func _ready():
 	$teleport.visible = false
 	add_to_group("player")
+	update_hearts()
 
 
 func _physics_process(delta):
@@ -54,6 +58,10 @@ func _physics_process(delta):
 	direction = target - global_position
 	direction.y = 0
 	
+	if Input.is_action_just_pressed("hide"):
+		hearts_hidden = not hearts_hidden
+		update_hearts()
+		
 	if Input.is_action_just_pressed("teleport"):
 		teleport_to_mouse()
 
@@ -63,7 +71,13 @@ func _physics_process(delta):
 
 	if direction.length() > 0.1:
 		velocity = direction.normalized() * SPEED
+	else:
+		velocity = Vector3.ZERO
 
+	move_and_slide()
+
+	# 🚶‍♂️ Detecta se realmente está se movendo (não apenas tentando)
+	if velocity.length() > 0.1:
 		var target_rotation = atan2(direction.x, direction.z)
 		warlock.rotation.y = lerp_angle(warlock.rotation.y, target_rotation, delta * 10.0)
 
@@ -71,12 +85,10 @@ func _physics_process(delta):
 			anim_player.speed_scale = 2.5
 			anim_player.play("Walking")
 	else:
-		velocity = Vector3.ZERO
 		if anim_player.current_animation != "Idle":
 			anim_player.speed_scale = 1.2
 			anim_player.play("Idle")
 
-	move_and_slide()
 
 	if Input.is_action_just_pressed("cast_fireball"):
 		cast_fireball()
@@ -97,6 +109,8 @@ func _on_enemy_collision(enemy_node: Node) -> void:
 
 	last_hit_time = now
 	print("💥 Colidiu (slide) com:", enemy_node.name)
+	
+	take_damage()
 
 	var hurt_sound = AudioStreamPlayer3D.new()
 	hurt_sound.stream = load("res://Sounds/hurt.mp3")
@@ -290,3 +304,35 @@ func spawn_reflect():
 	await get_tree().create_timer(4.0).timeout
 	can_reflect = true
 	
+func take_damage() -> void:
+	life = life -1
+	print("💔 Warlock HP:", life)
+	update_hearts()
+	
+	if life <= 0:
+		die()
+	
+func die() -> void:
+	$dead.visible = true
+	velocity = Vector3.ZERO
+	GameState.enemy_kills = 0
+	# 🧊 trava completamente o personagem
+	set_process(false)
+	set_physics_process(false)
+	set_process_input(false)
+
+	await get_tree().create_timer(3.5).timeout
+	get_tree().reload_current_scene()
+	
+func update_hearts() -> void:
+	var hearts = [
+		$HeartNew,
+		$HeartNew2,
+		$HeartNew3,
+		$HeartNew4,
+		$HeartNew5
+	]
+	
+	for i in range(hearts.size()):
+		var idx = hearts.size() - 1 - i  # índice invertido
+		hearts[idx].visible = not hearts_hidden and i < life
