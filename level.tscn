@@ -1,5 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene load_steps=20 format=3 uid="uid://bxg0ji4jcia63"]
 
+[ext_resource type="Script" uid="uid://y6imsfw3mou4" path="res://game_state.gd" id="1_8cye3"]
+[ext_resource type="Script" uid="uid://dt506o0k22n2o" path="res://pause_handler.gd" id="1_i2t4f"]
 [ext_resource type="Script" uid="uid://cwywb5ui0ityb" path="res://world_environment.gd" id="1_km5ld"]
 [ext_resource type="Script" uid="uid://dbrkaqpw5847g" path="res://camera_3d.gd" id="1_u52ul"]
 [ext_resource type="PackedScene" uid="uid://cofcf2fgyf78n" path="res://arenafloor_v3.glb" id="5_f2txt"]
@@ -8,6 +10,16 @@
 [ext_resource type="PackedScene" uid="uid://ba0njjoa2awie" path="res://warlock_character.tscn" id="7_n6hdu"]
 [ext_resource type="PackedScene" uid="uid://o0axea3p8c5c" path="res://rock_1.tscn" id="8_i2t4f"]
 [ext_resource type="PackedScene" uid="uid://l3j1u0s4itku" path="res://pilar.tscn" id="8_km5ld"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_km5ld"]
+line_spacing = 16.0
+font_size = 38
+
+[sub_resource type="LabelSettings" id="LabelSettings_i2t4f"]
+font_size = 70
+
+[sub_resource type="LabelSettings" id="LabelSettings_8cye3"]
+font_size = 22
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5xgho"]
 
@@ -29,6 +41,80 @@ size = Vector2(20, 20)
 data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
 
 [node name="Node3D" type="Node3D"]
+process_mode = 1
+
+[node name="GameState" type="Node" parent="."]
+script = ExtResource("1_8cye3")
+
+[node name="PauseHandler" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("1_i2t4f")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Help" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -69.0
+offset_bottom = 23.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+text = "Esc - Remove Help
+M - Mute
+P - Pause
+Q - Teleport
+W - Barrier
+Space - Dash
+Scroll - Zoom in/out
+Left Click - Wak
+Right Click - Fireball  "
+
+[node name="Paused" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -11.5
+offset_right = 28.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_km5ld")
+
+[node name="Level" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Apocalypse Level"
+label_settings = SubResource("LabelSettings_i2t4f")
+
+[node name="enemykilled" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = " Enemies Killed: 0"
+label_settings = SubResource("LabelSettings_8cye3")
+
+[node name="TimeScore" type="Label" parent="CanvasLayer"]
+offset_left = 7.0
+offset_top = 39.0
+offset_right = 201.0
+offset_bottom = 84.0
+text = " Time Score"
+label_settings = SubResource("LabelSettings_8cye3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vonw3")

@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var speed := 4.0
+@export var speed := 5.0
 @export var stuck_threshold_time := 1.0
 @export var stuck_distance_threshold := 0.05
 @export var avoid_touch_distance := 1.0
@@ -94,7 +94,17 @@ func _on_body_entered(body):
 
 # 💀 Função de morte
 func die():
+	GameState.add_kill()
+		
 	is_dead = true
+	
+	# 🛑 Desativa colisão imediatamente (não atinge o jogador enquanto morre)
+	set_collision_layer(0)
+	set_collision_mask(0)
+	if hit_area:
+		hit_area.set_deferred("monitoring", false)
+		hit_area.set_deferred("monitorable", false)
+		
 	velocity = Vector3.ZERO
 
 	if anim_player and anim_player.has_animation("die"):
@@ -104,7 +114,7 @@ func die():
 		# 🔊 toca o som de morte do monstro
 		var death_sound = AudioStreamPlayer3D.new()
 		death_sound.stream = load("res://Sounds/monsterdie.mp3")
-		death_sound.volume_db = -6
+		death_sound.volume_db = -4
 		add_child(death_sound)
 		death_sound.play()
 		# Remove o som quando terminar

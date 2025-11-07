@@ -1,5 +1,13 @@
 extends WorldEnvironment
 
+@onready var help_ui = $"../CanvasLayer/Help"
+@onready var level_text = $"../CanvasLayer/Level"
+@onready var enemykilled = $"../CanvasLayer/enemykilled"
+@onready var timescore = $"../CanvasLayer/TimeScore"
+
+var fade_done := false
+var current_level_stage := 1
+
 var music_player: AudioStreamPlayer
 var current_track := -1
 var tracks = [
@@ -30,24 +38,32 @@ func _ready():
 	add_child(spawn_timer)
 
 func _process(delta):
+	_update_enemy_kills()
 	total_time += delta
+	
+	var minutes = int(total_time) / 60
+	var seconds = int(total_time) % 60
+	var min_str = "0" + str(minutes) if minutes < 10 else str(minutes)
+	var sec_str = "0" + str(seconds) if seconds < 10 else str(seconds)
+	timescore.text = min_str + ":" + sec_str
+
 
 	# ajusta a velocidade de spawn conforme o tempo de jogo
 	if total_time < 30:
 		spawn_timer.wait_time = 4.0
-		#print("First wave - Light Sunday")
+		#print("First wave - Beautiful Sunday Morning")
 	elif total_time < 60:
 		spawn_timer.wait_time = 2.0
-		#print("Second wave - Begginers Guide")
+		#print("Second wave - Beginner's Guide")
 	elif total_time < 120:
 		spawn_timer.wait_time = 1.0
-		#print("Third wave - Ragnaroke")
+		#print("Third wave - Ragnarok")
 	elif total_time < 180:
 		spawn_timer.wait_time = 0.5
 		#print("Fourth wave - Apocalypse")
 	else:
 		spawn_timer.wait_time = 0.2
-		#print("Last wave - Eclipse")
+		#print("Last wave - Final Eclipse")
 
 	# garante que o timer atualize o novo tempo se mudar
 	if spawn_timer.time_left > spawn_timer.wait_time:
@@ -55,6 +71,24 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("mute"):
 		toggle_mute()
+		
+# 
+	if total_time >= 180 and current_level_stage < 4:
+		current_level_stage = 4
+		level_text.text = "Final Eclipse"
+		_do_level_fade()
+
+	elif total_time >= 120 and current_level_stage < 3:
+		current_level_stage = 3
+		level_text.text = "Apocalypse Level"
+		_do_level_fade()
+
+	elif total_time >= 60 and current_level_stage < 2:
+		current_level_stage = 2
+		level_text.text = "Ragnarok Level"
+		_do_level_fade()
+
+
 
 func _play_next_track():
 	current_track = (current_track + 1) % tracks.size()
@@ -96,3 +130,17 @@ func _spawn_enemy():
 	enemy.global_position = Vector3(x, 0, z)
 
 	print("Spawned enemy at:", enemy.global_position)
+	
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		help_ui.visible = not help_ui.visible
+		
+func _do_level_fade():
+	level_text.visible = true
+	var tween = create_tween()
+	tween.tween_property(level_text, "modulate:a", 1.0, 1.5)  # fade in
+	tween.tween_interval(1.0)
+	tween.tween_property(level_text, "modulate:a", 0.0, 1.5)  # fade out
+	
+func _update_enemy_kills():
+	enemykilled.text = " Enemies Killed: %d" % GameState.enemy_kills

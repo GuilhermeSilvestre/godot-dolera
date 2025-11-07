@@ -114,7 +114,7 @@ func _on_enemy_collision(enemy_node: Node) -> void:
 	global_position += push_dir * 0.5
 
 	await get_tree().create_timer(1.0).timeout
-	SPEED = old_speed
+	SPEED = BASE_SPEED
 
 
 func move_character_click(position: Vector3):
