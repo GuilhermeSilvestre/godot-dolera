@@ -50,6 +50,7 @@ horizontal_alignment = 1
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=511468884]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
 theme_override_font_sizes/font_size = 32
 text = "This is a pseudo game made by TuRtLeDz "
 horizontal_alignment = 1
@@ -57,6 +58,7 @@ horizontal_alignment = 1
 [node name="Label3" type="Label" parent="VBoxContainer" unique_id=315776916]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
 theme_override_font_sizes/font_size = 32
 text = "Now get out of here!"
 horizontal_alignment = 1

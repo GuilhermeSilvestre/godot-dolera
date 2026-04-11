@@ -6,6 +6,7 @@ extends CharacterBody3D
 @onready var anim_player = $warlock1/AnimationPlayer
 @onready var reflect_scene = preload("res://Reflect.tscn")
 
+var is_dying := false
 
 var BASE_SPEED = 4.0
 var SPEED = BASE_SPEED
@@ -323,6 +324,11 @@ func take_damage() -> void:
 		die()
 	
 func die() -> void:
+	if is_dying:
+		return
+	
+	is_dying = true
+	
 	$dead.visible = true
 	velocity = Vector3.ZERO
 	GameState.enemy_kills = 0

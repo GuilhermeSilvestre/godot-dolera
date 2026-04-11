@@ -2,6 +2,76 @@
 
 [ext_resource type="Script" uid="uid://doqnwfhpyhr12" path="res://main_menu.gd" id="1_i26rj"]
 [ext_resource type="Texture2D" uid="uid://cbtsfq8i0c6ax" path="res://warlock_image2.png" id="2_eiy7p"]
+[ext_resource type="Texture2D" uid="uid://cfq7sj6mpdsyj" path="res://volume.png" id="3_h7a2f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eiy7p"]
+bg_color = Color(0.12941177, 0.2, 0.21568628, 0.7490196)
+border_color = Color(0.34683287, 0.44812667, 0.07485127, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+shadow_color = Color(0.85658985, 0.6372575, 0.28631973, 0.6)
+shadow_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7cqb"]
+bg_color = Color(0.047058824, 0.047058824, 0.047058824, 0.3372549)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7a2f"]
+bg_color = Color(0.14509805, 0.14509805, 0.14509805, 0.3529412)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qoqlk"]
+bg_color = Color(0.12900639, 0.20040357, 0.21514544, 0.7490196)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2xy7"]
+bg_color = Color(0.08235294, 0.08235294, 0.08235294, 0.38039216)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iwfq2"]
+bg_color = Color(0.07444572, 0.07444573, 0.07444569, 0.32941177)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7r1g0"]
+bg_color = Color(0.12941177, 0.2, 0.21568628, 0.7490196)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fimr5"]
+bg_color = Color(0.08627451, 0.08627451, 0.08627451, 0.37254903)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqjrg"]
+bg_color = Color(0.03137255, 0.03137255, 0.03137255, 0.35686275)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+shadow_size = 20
 
 [node name="MainMenu" type="Control" unique_id=830838463]
 layout_mode = 3
@@ -27,6 +97,16 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_eiy7p")
 
+[node name="Sound" type="Button" parent="." unique_id=1643395383]
+layout_mode = 0
+offset_left = 1629.0
+offset_top = 3.0
+offset_right = 5637.0
+offset_bottom = 4011.0
+scale = Vector2(0.02321104, 0.02321104)
+icon = ExtResource("3_h7a2f")
+flat = true
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1086646703]
 custom_minimum_size = Vector2(400, 300)
 layout_mode = 1
@@ -35,28 +115,59 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -200.0
+offset_top = -68.0
+offset_right = 200.0
+offset_bottom = 232.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Play" type="Button" parent="VBoxContainer" unique_id=1718878504]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2227706, 0.7315597, 0.63821596, 1)
+theme_override_colors/font_pressed_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_colors/font_hover_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_eiy7p")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_u7cqb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h7a2f")
 text = "Play"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1002993038]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
+[node name="How to Play" type="Button" parent="VBoxContainer" unique_id=709920494]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22352941, 0.73333335, 0.6392157, 1)
+theme_override_colors/font_pressed_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_colors/font_hover_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_qoqlk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e2xy7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iwfq2")
+text = "How to Play"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=625598772]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
 [node name="Credits" type="Button" parent="VBoxContainer" unique_id=1629695570]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.22352941, 0.73333335, 0.6392157, 1)
+theme_override_colors/font_pressed_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_colors/font_hover_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
 theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_7r1g0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fimr5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cqjrg")
 text = "Credits"
 
+[connection signal="pressed" from="Sound" to="." method="_on_sound_pressed"]
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/How to Play" to="." method="_on_how_to_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]

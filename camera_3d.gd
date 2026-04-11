@@ -19,7 +19,7 @@ func _process(delta):
 	# Segue o personagem
 	if character:
 		global_position = global_position.lerp(character.global_position + camera_offset, delta * 5.0)
-
+	
 	# Click-to-move
 	if Input.is_action_pressed("click_to_move"):
 		mouse_position = get_viewport().get_mouse_position()

@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://ck2og2cn45rps"]
+
+[ext_resource type="Script" uid="uid://dnhkmelyt4fvw" path="res://howtoplay.gd" id="1_4wcgq"]
+[ext_resource type="Texture2D" uid="uid://d2uk6kj4xc3fn" path="res://warlock_image1.png" id="1_kj5ta"]
+[ext_resource type="Texture2D" uid="uid://bfs01utt33a6g" path="res://enemy_image.png" id="3_0e3kn"]
+
+[node name="Control" type="Control" unique_id=891262086]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4wcgq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=387513361]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.37714145, 0.3201003, 0.51722676, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1421314385]
+layout_mode = 0
+offset_left = -468.0
+offset_top = -85.0
+offset_right = 1452.0
+offset_bottom = 995.0
+texture = ExtResource("1_kj5ta")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=870166493]
+visible = false
+layout_mode = 0
+offset_left = -468.0
+offset_top = -85.0
+offset_right = 1452.0
+offset_bottom = 995.0
+rotation = 0.08702708
+texture = ExtResource("1_kj5ta")
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=703319061]
+visible = false
+layout_mode = 0
+offset_left = -468.0
+offset_top = -85.0
+offset_right = 1452.0
+offset_bottom = 995.0
+rotation = 0.17611316
+texture = ExtResource("1_kj5ta")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=750636916]
+layout_mode = 0
+offset_left = 969.0
+offset_top = -40.0
+offset_right = 2889.0
+offset_bottom = 1040.0
+scale = Vector2(0.3600018, 0.3600018)
+texture = ExtResource("3_0e3kn")
+
+[node name="TextureRect5" type="TextureRect" parent="." unique_id=75658203]
+layout_mode = 0
+offset_left = 1020.0
+offset_top = 111.0
+offset_right = 2940.0
+offset_bottom = 1191.0
+scale = Vector2(0.3600018, 0.3600018)
+texture = ExtResource("3_0e3kn")
+
+[node name="TextureRect6" type="TextureRect" parent="." unique_id=796214177]
+layout_mode = 0
+offset_left = 1273.0
+offset_right = 3193.0
+offset_bottom = 1080.0
+scale = Vector2(0.3600018, 0.3600018)
+texture = ExtResource("3_0e3kn")
+
+[node name="TextureRect7" type="TextureRect" parent="." unique_id=870155827]
+layout_mode = 0
+offset_left = 1273.0
+offset_top = 281.0
+offset_right = 3193.0
+offset_bottom = 1361.0
+scale = Vector2(0.3600018, 0.3600018)
+texture = ExtResource("3_0e3kn")
+
+[node name="TextureRect8" type="TextureRect" parent="." unique_id=1213889017]
+layout_mode = 0
+offset_left = 698.0
+offset_top = 36.0
+offset_right = 2618.0
+offset_bottom = 1116.0
+scale = Vector2(0.3600018, 0.3600018)
+texture = ExtResource("3_0e3kn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1128094845]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -645.5
+offset_top = -109.0
+offset_right = 645.5
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1664995338]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94777447, 0.3954923, 0.38634565, 1)
+theme_override_font_sizes/font_size = 32
+text = "Every time you kill 5 enemies, your powers become stronger."
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=1566352270]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
+theme_override_font_sizes/font_size = 32
+text = "Kill 50 enemies, try to survive for 1 minute and 30 seconds and find out for yourself."
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer" unique_id=1105549797]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
+theme_override_font_sizes/font_size = 32
+text = "Now get out of here!"
+horizontal_alignment = 1

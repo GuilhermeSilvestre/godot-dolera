@@ -65,11 +65,21 @@ func _process(delta):
 		print("SPAWN PARADO")
 		music_player.stop()
 		await get_tree().create_timer(0.2).timeout
-		var enemies = get_tree().get_nodes_in_group("enemies").duplicate()
+		var enemies = []
+		for e in get_tree().get_nodes_in_group("enemies"):
+			if is_instance_valid(e):
+				enemies.append(e)
+
+		for enemy in enemies:
+			if is_instance_valid(enemy):
+				if enemy.has_method("set_physics_process"):
+					enemy.set_physics_process(false)
+
 		for enemy in enemies:
 			if is_instance_valid(enemy) and enemy.has_method("die"):
 				enemy.die(false, false)
-			await get_tree().create_timer(0.05).timeout
+				await get_tree().create_timer(0.05).timeout
+
 		level_text.text = "You have the chance to see him..."
 		_do_level_fade()
 	
@@ -144,10 +154,15 @@ func _process(delta):
 	if Input.is_action_just_pressed("mute"):
 		toggle_mute()
 		
+	if Input.is_action_just_pressed("mainmenu"):
+		GameState.enemy_kills = 0
+		AudioManager.play_click()
+		AudioManager.play_menu_music()
+		get_tree().change_scene_to_file("res://MainMenu.tscn")
 # 
 	if total_time >= 70 and current_level_stage < 4:
 		current_level_stage = 4
-		level_text.text = "Final Eclipse"
+		level_text.text = "Final Eclipse Level"
 		_do_level_fade()
 
 	elif total_time >= 50 and current_level_stage < 3:
@@ -162,7 +177,7 @@ func _process(delta):
 
 	elif total_time >= 1 and total_time <= 2 and current_level_stage < 2:
 		current_level_stage = 1
-		level_text.text = "Starting"
+		level_text.text = "Calm Before the Storm"
 		_do_level_fade()
 
 func _play_next_track():
@@ -187,8 +202,9 @@ func _on_music_finished():
 func toggle_mute():
 	is_muted = !is_muted
 	if is_muted:
-		music_player.volume_db = -80
+		AudioServer.set_bus_volume_db(0, -80)
 	else:
+		AudioServer.set_bus_volume_db(0, 0)
 		if current_track == 0:
 			music_player.volume_db = 0
 		elif current_track == 1:
