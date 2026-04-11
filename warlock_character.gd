@@ -7,15 +7,18 @@ extends CharacterBody3D
 @onready var reflect_scene = preload("res://Reflect.tscn")
 
 
-const BASE_SPEED = 7.0
+var BASE_SPEED = 4.0
 var SPEED = BASE_SPEED
 var life = 5
 var hearts_hidden := false
 
+var fireball_cast_delay = 1.8
+var fireball_speed = 9.0
+
 # 🚀 Configurações do Fast Move
-const FAST_MOVE_SPEED := 17.0
-const FAST_MOVE_DURATION := 0.5       # segundos de duração
-const FAST_MOVE_COOLDOWN := 4.0       # segundos de cooldown
+var FAST_MOVE_SPEED := 17.0
+var FAST_MOVE_DURATION := 0.5       # segundos de duração
+var FAST_MOVE_COOLDOWN := 4.0       # segundos de cooldown
 var can_fast_move := true
 var is_fast_moving := false
 var can_reflect := true
@@ -26,14 +29,15 @@ var last_hit_time = 0.0
 # 🔮 Teleporte
 var is_teleporting := false
 var can_teleport := true
-const TELEPORT_COOLDOWN := 5.0
-const TELEPORT_MAX_DISTANCE := 10.0
-const TELEPORT_DELAY := 1.0
+var TELEPORT_COOLDOWN := 5.0
+var TELEPORT_MAX_DISTANCE := 10.0
+var TELEPORT_DELAY := 1.0
 
 # 🔥 Fireball
 var fireball_scene = preload("res://fireball.tscn")
 var fireball_sound = preload("res://Sounds/fireballsound.mp3")
 var teleport_sound = preload("res://Sounds/teleport.mp3")
+var fast_sound = preload("res://Sounds/fast.mp3")
 var can_cast = true
 
 var direction : Vector3
@@ -162,6 +166,7 @@ func cast_fireball():
 
 	var fireball = fireball_scene.instantiate()
 	get_parent().add_child(fireball)
+	fireball.set_speed(fireball_speed)
 
 	var anim_player_fb = fireball.get_node("fireballv2/AnimationPlayer")
 	if anim_player_fb:
@@ -179,7 +184,7 @@ func cast_fireball():
 	if fireball.has_method("set_direction"):
 		fireball.set_direction(forward)
 
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(fireball_cast_delay).timeout
 	can_cast = true
 
 
@@ -245,6 +250,11 @@ func fast_move():
 	can_fast_move = false
 	is_fast_moving = true
 	SPEED = FAST_MOVE_SPEED
+	
+	var sfx_player = AudioStreamPlayer3D.new()
+	sfx_player.stream = fast_sound
+	add_child(sfx_player)
+	sfx_player.play()
 
 	await get_tree().create_timer(FAST_MOVE_DURATION).timeout
 
@@ -322,7 +332,7 @@ func die() -> void:
 	set_process_input(false)
 
 	await get_tree().create_timer(3.5).timeout
-	get_tree().reload_current_scene()
+	get_tree().change_scene_to_file("res://MainMenu.tscn")
 	
 func update_hearts() -> void:
 	var hearts = [
@@ -330,9 +340,14 @@ func update_hearts() -> void:
 		$HeartNew2,
 		$HeartNew3,
 		$HeartNew4,
-		$HeartNew5
+		$HeartNew5,
+		$HeartNew6,
+		$HeartNew7,
+		$HeartNew8
 	]
 	
 	for i in range(hearts.size()):
-		var idx = hearts.size() - 1 - i  # índice invertido
-		hearts[idx].visible = not hearts_hidden and i < life
+		if hearts_hidden:
+			hearts[i].visible = false
+		else:
+			hearts[i].visible = i < life

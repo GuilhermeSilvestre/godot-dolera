@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bxg0ji4jcia63"]
+[gd_scene format=3 uid="uid://bxg0ji4jcia63"]
 
 [ext_resource type="Script" uid="uid://y6imsfw3mou4" path="res://game_state.gd" id="1_8cye3"]
 [ext_resource type="Script" uid="uid://dt506o0k22n2o" path="res://pause_handler.gd" id="1_i2t4f"]
@@ -17,6 +17,7 @@ font_size = 38
 
 [sub_resource type="LabelSettings" id="LabelSettings_i2t4f"]
 font_size = 70
+font_color = Color(0.757846, 0.7917762, 0.34434682, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8cye3"]
 font_size = 22
@@ -40,19 +41,19 @@ size = Vector2(20, 20)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vonw3"]
 data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=247716480]
 process_mode = 1
 
-[node name="GameState" type="Node" parent="."]
+[node name="GameState" type="Node" parent="." unique_id=515229476]
 script = ExtResource("1_8cye3")
 
-[node name="PauseHandler" type="Node" parent="."]
+[node name="PauseHandler" type="Node" parent="." unique_id=1604714034]
 process_mode = 3
 script = ExtResource("1_i2t4f")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1029030272]
 
-[node name="Help" type="Label" parent="CanvasLayer"]
+[node name="Help" type="Label" parent="CanvasLayer" unique_id=2034589169]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -64,14 +65,14 @@ text = "Esc - Remove Help
 M - Mute
 P - Pause
 Q - Teleport
-W - Barrier
 H - Hide hearts
+W - Reflect
 Space - Dash
 Scroll - Zoom in/out
 Left Click - Wak
 Right Click - Fireball  "
 
-[node name="Paused" type="Label" parent="CanvasLayer"]
+[node name="Paused" type="Label" parent="CanvasLayer" unique_id=2002626711]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -87,7 +88,7 @@ grow_vertical = 2
 text = "Paused"
 label_settings = SubResource("LabelSettings_km5ld")
 
-[node name="Level" type="Label" parent="CanvasLayer"]
+[node name="Level" type="Label" parent="CanvasLayer" unique_id=29931767]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,13 +104,30 @@ grow_vertical = 2
 text = "Apocalypse Level"
 label_settings = SubResource("LabelSettings_i2t4f")
 
-[node name="enemykilled" type="Label" parent="CanvasLayer"]
+[node name="upgrade" type="Label" parent="CanvasLayer" unique_id=885423373]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.5
+offset_top = -248.0
+offset_right = 288.5
+offset_bottom = -152.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Upgraded Powers"
+label_settings = SubResource("LabelSettings_i2t4f")
+horizontal_alignment = 1
+
+[node name="enemykilled" type="Label" parent="CanvasLayer" unique_id=34615301]
 offset_right = 40.0
 offset_bottom = 23.0
 text = " Enemies Killed: 0"
 label_settings = SubResource("LabelSettings_8cye3")
 
-[node name="TimeScore" type="Label" parent="CanvasLayer"]
+[node name="TimeScore" type="Label" parent="CanvasLayer" unique_id=1281265772]
 offset_left = 7.0
 offset_top = 39.0
 offset_right = 201.0
@@ -117,73 +135,73 @@ offset_bottom = 84.0
 text = " Time Score"
 label_settings = SubResource("LabelSettings_8cye3")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=461728622]
 environment = SubResource("Environment_vonw3")
 script = ExtResource("1_km5ld")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1408792885]
 transform = Transform3D(0.56962454, 0.5670398, -0.59497356, -0.03796041, 0.74127394, 0.6701281, 0.8210279, -0.35913604, 0.443773, 0, 10.4082775, 13.845432)
 light_energy = 2.0
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("character")]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1468952981 node_paths=PackedStringArray("character")]
 transform = Transform3D(1, 0, 0, 0, 0.38044098, 0.9248052, 0, -0.9248052, 0.38044098, 0, 7, 3.4939542)
 script = ExtResource("1_u52ul")
 character = NodePath("../Warlock")
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=277023955]
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1782521704]
 transform = Transform3D(2.6717615, 0, 0, 0, 1, 0, 0, 0, 2.6717615, 0, 0, 0)
 navigation_mesh = SubResource("NavigationMesh_u52ul")
 
-[node name="arenafloor_v3" parent="NavigationRegion3D" instance=ExtResource("5_f2txt")]
+[node name="arenafloor_v3" parent="NavigationRegion3D" unique_id=725060837 instance=ExtResource("5_f2txt")]
 transform = Transform3D(1.9257027, 0, 0, 0, 1, 0, 0, 0, 1.9257027, -0.019557, 0.01999998, -0.04010415)
 
-[node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D"]
+[node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1063507460]
 visible = false
 mesh = SubResource("PlaneMesh_oi3di")
 skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" groups=["floor"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" unique_id=1362228146 groups=["floor"]]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D" unique_id=1232204497]
 shape = SubResource("ConcavePolygonShape3D_vonw3")
 
-[node name="Warlock" parent="." instance=ExtResource("7_n6hdu")]
+[node name="Warlock" parent="." unique_id=1150413065 instance=ExtResource("7_n6hdu")]
 
-[node name="rock1" parent="." instance=ExtResource("8_i2t4f")]
+[node name="rock1" parent="." unique_id=432259916 instance=ExtResource("8_i2t4f")]
 transform = Transform3D(0.049521647, -0.7121374, 1.302298, 1.3219966, 0.3653536, 0.12642385, -0.34304893, 1.3051492, 0.6751916, -14.783147, 0.7738087, 16.056726)
 
-[node name="rock3" parent="." instance=ExtResource("8_i2t4f")]
+[node name="rock3" parent="." unique_id=1654676328 instance=ExtResource("8_i2t4f")]
 transform = Transform3D(0.049521647, -0.7121374, 1.302298, 1.3219966, 0.3653536, 0.12642385, -0.34304893, 1.3051492, 0.6751916, 14.534194, 0.7738087, -4.0311966)
 
-[node name="rock2" parent="." instance=ExtResource("8_i2t4f")]
+[node name="rock2" parent="." unique_id=476709103 instance=ExtResource("8_i2t4f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.337636, 0.23405123, 18.642136)
 
-[node name="rock4" parent="." instance=ExtResource("6_n6hdu")]
+[node name="rock4" parent="." unique_id=803088388 instance=ExtResource("6_n6hdu")]
 transform = Transform3D(1, 0, 0, 0, 0.9869347, -0.08007607, 0, 0.060640153, 1.3032595, -7.2549205, 0.5913309, 15.362923)
 
-[node name="rock8" parent="." instance=ExtResource("6_n6hdu")]
+[node name="rock8" parent="." unique_id=1162985575 instance=ExtResource("6_n6hdu")]
 transform = Transform3D(2.2462475, 0, 0, 0, 2.2168996, -0.17987067, 0, 0.1362128, 2.9274435, -16.227287, 0.5913309, -3.244501)
 
-[node name="rock5" parent="." instance=ExtResource("7_km5ld")]
+[node name="rock5" parent="." unique_id=967129917 instance=ExtResource("7_km5ld")]
 transform = Transform3D(0.026002532, 0.99966186, 0, -0.9721225, 0.025286196, -0.23310593, -0.2330271, 0.0060613444, 0.9724513, 0.28782034, 0.86605215, 14.363171)
 
-[node name="rock6" parent="." instance=ExtResource("6_n6hdu")]
+[node name="rock6" parent="." unique_id=483190779 instance=ExtResource("6_n6hdu")]
 transform = Transform3D(1, 0, 0, 0, 0.9869347, -0.08007607, 0, 0.060640153, 1.3032595, -7.2549205, 0.5913309, -10.157259)
 
-[node name="rock7" parent="." instance=ExtResource("7_km5ld")]
+[node name="rock7" parent="." unique_id=2006055352 instance=ExtResource("7_km5ld")]
 transform = Transform3D(0.026002532, 0.99966186, 0, -0.9721225, 0.025286196, -0.23310593, -0.2330271, 0.0060613444, 0.9724513, 0.28782034, 0.86605215, -11.157011)
 
-[node name="Pilar2" parent="." instance=ExtResource("8_km5ld")]
+[node name="Pilar2" parent="." unique_id=1498963321 instance=ExtResource("8_km5ld")]
 transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, -11.134715, 0.007399082, 5.883669)
 
-[node name="Pilar4" parent="." instance=ExtResource("8_km5ld")]
+[node name="Pilar4" parent="." unique_id=2505755 instance=ExtResource("8_km5ld")]
 transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, 9.338658, 0.007399082, 7.2969913)
 
-[node name="Pilar5" parent="." instance=ExtResource("8_km5ld")]
+[node name="Pilar5" parent="." unique_id=388026132 instance=ExtResource("8_km5ld")]
 transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, 16.09334, 0.007399082, 18.538124)
 
-[node name="Pilar3" parent="." instance=ExtResource("8_km5ld")]
+[node name="Pilar3" parent="." unique_id=625933676 instance=ExtResource("8_km5ld")]
 transform = Transform3D(0.47645268, 0, 0, 0, 0.37641108, 0, 0, 0, 0.5268216, -4.4408197, 0.007399082, -7.7845774)

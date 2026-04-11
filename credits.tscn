@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://c65phcmbh5bxq"]
+
+[ext_resource type="Script" uid="uid://sgrukkxw4pgh" path="res://credits.gd" id="1_nm7lk"]
+[ext_resource type="Texture2D" uid="uid://cfrvwh1a5o6oq" path="res://warlock_image3.png" id="2_c1t8d"]
+
+[node name="Credits" type="Control" unique_id=1401936413]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nm7lk")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1997710176]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.37714145, 0.3201003, 0.51722676, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1335134965]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_c1t8d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=774636585]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.0
+offset_top = -109.0
+offset_right = 161.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=120786782]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=511468884]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "This is a pseudo game made by TuRtLeDz "
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=315776916]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Now get out of here!"
+horizontal_alignment = 1

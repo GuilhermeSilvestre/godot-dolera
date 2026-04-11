@@ -14,7 +14,6 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ywdy"]
 font_size = 58
-font_color = Color(0.80787146, 0.20481157, 0.18028086, 1)
 
 [node name="WarlockCharacter" type="CharacterBody3D" unique_id=487832079]
 script = ExtResource("1_7ns18")
@@ -57,7 +56,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98632264, 0)
 shape = SubResource("CapsuleShape3D_0ywdy")
 
 [node name="dead" type="Label" parent="." unique_id=1013848537]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

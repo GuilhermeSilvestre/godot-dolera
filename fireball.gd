@@ -1,7 +1,7 @@
 extends Area3D
 
-const SPEED = 14.0
-const MAX_DISTANCE = 200.0
+var SPEED = 10.0
+var MAX_DISTANCE = 200.0
 
 var direction: Vector3
 var distance_traveled: float = 0.0
@@ -71,3 +71,5 @@ func _on_body_entered(_body):
 func set_direction(dir: Vector3):
 	direction = dir.normalized()
 	
+func set_speed(s):
+	SPEED = s

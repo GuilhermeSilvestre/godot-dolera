@@ -93,8 +93,9 @@ func _on_body_entered(body):
 
 
 # 💀 Função de morte
-func die():
-	GameState.add_kill()
+func die(play_sound := true, count_kill := true):
+	if count_kill:
+		GameState.add_kill()
 		
 	is_dead = true
 	
@@ -112,13 +113,14 @@ func die():
 		anim_player.play("die")
 
 		# 🔊 toca o som de morte do monstro
-		var death_sound = AudioStreamPlayer3D.new()
-		death_sound.stream = load("res://Sounds/monsterdie.mp3")
-		death_sound.volume_db = -4
-		add_child(death_sound)
-		death_sound.play()
-		# Remove o som quando terminar
-		death_sound.finished.connect(death_sound.queue_free)
+		if play_sound:
+			var death_sound = AudioStreamPlayer3D.new()
+			death_sound.stream = load("res://Sounds/monsterdie.mp3")
+			death_sound.volume_db = -4
+			add_child(death_sound)
+			death_sound.play()
+			# Remove o som quando terminar
+			death_sound.finished.connect(death_sound.queue_free)
 
 	# ⏳ espera o fim da animação antes de remover o inimigo
 	await get_tree().create_timer(0.7).timeout
