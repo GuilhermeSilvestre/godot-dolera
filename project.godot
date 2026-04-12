@@ -17,6 +17,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Dolera"
 run/main_scene="uid://3nvq5xwngugt"
 config/features=PackedStringArray("4.6", "Mobile")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/stretch_mode=4
+boot_splash/image="uid://b1ug2k2lm2lu5"
+boot_splash/minimum_display_time=2000
 
 [autoload]
 

@@ -97,6 +97,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_eiy7p")
 
+[node name="ScoreLabel" type="Label" parent="." unique_id=1058332678]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "aaaa"
+
 [node name="Sound" type="Button" parent="." unique_id=1643395383]
 layout_mode = 0
 offset_left = 1629.0

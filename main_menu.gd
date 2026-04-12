@@ -1,7 +1,10 @@
 extends Control
 
+@onready var score_label = $ScoreLabel
+
 func _ready():
 	AudioManager.play_menu_music()
+	score_label.text = "Last run: " + str(GameState.last_run_kills) + "\nHighscore: " + str(GameState.highscore)
 	
 func _on_play_pressed():
 	AudioManager.stop_music()

@@ -328,6 +328,7 @@ func die() -> void:
 		return
 	
 	is_dying = true
+	GameState.end_run()
 	
 	$dead.visible = true
 	velocity = Vector3.ZERO

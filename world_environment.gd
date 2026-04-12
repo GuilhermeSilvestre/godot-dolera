@@ -58,8 +58,8 @@ func _process(delta):
 	var sec_str = "0" + str(seconds) if seconds < 10 else str(seconds)
 	timescore.text = min_str + ":" + sec_str
 
-	# Se aguentar 90 segundos e matar 50 bonecos - Chega no Boss
-	if not stopped_spawning and total_time >= 90 and GameState.enemy_kills >= 50:
+	# Se aguentar 90 segundos e matar 60 bonecos - Chega no Boss
+	if not stopped_spawning and total_time >= 90 and GameState.enemy_kills >= 60:
 		stopped_spawning = true
 		spawn_timer.stop()
 		print("SPAWN PARADO")
@@ -74,6 +74,8 @@ func _process(delta):
 			if is_instance_valid(enemy):
 				if enemy.has_method("set_physics_process"):
 					enemy.set_physics_process(false)
+					enemy.set_collision_layer(0)
+					enemy.set_collision_mask(0)
 
 		for enemy in enemies:
 			if is_instance_valid(enemy) and enemy.has_method("die"):
@@ -155,7 +157,7 @@ func _process(delta):
 		toggle_mute()
 		
 	if Input.is_action_just_pressed("mainmenu"):
-		GameState.enemy_kills = 0
+		GameState.end_run()
 		AudioManager.play_click()
 		AudioManager.play_menu_music()
 		get_tree().change_scene_to_file("res://MainMenu.tscn")
