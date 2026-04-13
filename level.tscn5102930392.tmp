@@ -70,9 +70,8 @@ H - Hide hearts
 R - Reflect
 Space - Dash
 Scroll - Zoom in/out
-Right Click - Fireball 
-Left Click - Move
-WASD - Move"
+Left Click - Wak
+Right Click - Fireball  "
 
 [node name="Paused" type="Label" parent="CanvasLayer" unique_id=2002626711]
 visible = false

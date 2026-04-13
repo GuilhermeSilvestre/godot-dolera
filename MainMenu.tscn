@@ -4,6 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cbtsfq8i0c6ax" path="res://warlock_image2.png" id="2_eiy7p"]
 [ext_resource type="Texture2D" uid="uid://cfq7sj6mpdsyj" path="res://volume.png" id="3_h7a2f"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afec1"]
+bg_color = Color(0.31764707, 0.31764707, 0.31764707, 0)
+shadow_color = Color(0.44039315, 0.64272, 0.58041966, 0.43529412)
+shadow_size = 10
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eiy7p"]
 bg_color = Color(0.12941177, 0.2, 0.21568628, 0.7490196)
 border_color = Color(0.34683287, 0.44812667, 0.07485127, 1)
@@ -99,9 +104,14 @@ texture = ExtResource("2_eiy7p")
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=1058332678]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "aaaa"
+offset_left = 9.0
+offset_top = 6.0
+offset_right = 73.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.06471932, 0.8228976, 0.8229139, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_afec1")
+text = "Score"
 
 [node name="Sound" type="Button" parent="." unique_id=1643395383]
 layout_mode = 0
@@ -122,9 +132,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -68.0
+offset_top = -42.0
 offset_right = 200.0
-offset_bottom = 232.0
+offset_bottom = 352.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -161,6 +171,23 @@ text = "How to Play"
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
+[node name="Controls" type="Button" parent="VBoxContainer" unique_id=1918527893]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22352941, 0.73333335, 0.6392157, 1)
+theme_override_colors/font_pressed_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_colors/font_hover_color = Color(0.40392157, 0.9529412, 0.84313726, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_7r1g0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fimr5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cqjrg")
+text = "Controls
+"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=115047638]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
 [node name="Credits" type="Button" parent="VBoxContainer" unique_id=1629695570]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
@@ -176,4 +203,5 @@ text = "Credits"
 [connection signal="pressed" from="Sound" to="." method="_on_sound_pressed"]
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/How to Play" to="." method="_on_how_to_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]

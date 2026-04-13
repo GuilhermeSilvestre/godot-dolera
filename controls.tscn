@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://b0wer1b847ixi"]
+
+[ext_resource type="Texture2D" uid="uid://d2uk6kj4xc3fn" path="res://warlock_image1.png" id="1_gpdjo"]
+[ext_resource type="Script" uid="uid://dg10h6nnh3wjn" path="res://controls.gd" id="1_qo8cm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qo8cm"]
+bg_color = Color(0.20080861, 0.20080864, 0.2008085, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq3yo"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwvqn"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ff64o"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kxtwu"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kxvun"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[node name="Control" type="Control" unique_id=2031514497]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qo8cm")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2039088486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.37714145, 0.3201003, 0.51722676, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2091173815]
+layout_mode = 0
+offset_left = 2292.0
+offset_top = 717.0
+offset_right = 4212.0
+offset_bottom = 1797.0
+rotation = 3.0928853
+texture = ExtResource("1_gpdjo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1289799923]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -515.0
+offset_top = -162.0
+offset_right = -35.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mouse" type="Button" parent="VBoxContainer" unique_id=1333786338]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3518182, 0.7912417, 0.961379, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_qo8cm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kq3yo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xwvqn")
+text = "Move character with Mouse"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=361777192]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="WASD" type="Button" parent="VBoxContainer" unique_id=268405634]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3529412, 0.7921569, 0.9607843, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_ff64o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kxtwu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kxvun")
+text = "Move character with WASD
+"
+
+[connection signal="pressed" from="VBoxContainer/Mouse" to="." method="_on_mouse_pressed"]
+[connection signal="pressed" from="VBoxContainer/WASD" to="." method="_on_wasd_pressed"]

@@ -4,6 +4,8 @@ var enemy_kills: int = 0
 var last_run_kills: int = 0
 var highscore: int = 0
 
+var control_mode := "wasd"
+
 func _ready() -> void:
 	enemy_kills = 0
 

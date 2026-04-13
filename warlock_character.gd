@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var reflect_scene = preload("res://Reflect.tscn")
 
 var is_dying := false
+var is_moving := false
 
 var BASE_SPEED = 4.0
 var SPEED = BASE_SPEED
@@ -23,6 +24,8 @@ var FAST_MOVE_COOLDOWN := 4.0       # segundos de cooldown
 var can_fast_move := true
 var is_fast_moving := false
 var can_reflect := true
+
+var move_dir := Vector3.ZERO
 
 var can_collide := true
 var last_hit_time = 0.0
@@ -50,18 +53,73 @@ func _ready():
 	add_to_group("player")
 	update_hearts()
 
+func handle_wasd_movement(delta):
+	var input_dir = Vector3.ZERO
+	
+	if Input.is_action_pressed("move_forward"):
+		input_dir.z -= 1
+	if Input.is_action_pressed("move_back"):
+		input_dir.z += 1
+	if Input.is_action_pressed("move_left"):
+		input_dir.x -= 1
+	if Input.is_action_pressed("move_right"):
+		input_dir.x += 1
+
+	if input_dir != Vector3.ZERO:
+		is_moving = true
+		move_dir = input_dir.normalized()
+		var next_pos = global_position + move_dir * SPEED * delta
+
+		navigation_agent_3d.target_position = next_pos
+		var safe_pos = navigation_agent_3d.get_next_path_position()
+
+		var final_dir = safe_pos - global_position
+		final_dir.y = 0
+
+		if final_dir.length() > 0.01:
+			move_dir = final_dir.normalized()
+			velocity = move_dir * SPEED
+		else:
+			is_moving = false
+			move_dir = Vector3.ZERO
+			velocity = Vector3.ZERO
+	else:
+		is_moving = false
+		move_dir = Vector3.ZERO
+		velocity = Vector3.ZERO
+
+	move_and_slide()
+	
+	
+func handle_mouse_movement(delta):
+	var target = navigation_agent_3d.get_next_path_position()
+	direction = target - global_position
+	direction.y = 0
+
+	if direction.length() > 0.1:
+		is_moving = true
+		move_dir = direction.normalized()
+		velocity = direction.normalized() * SPEED
+	else:
+		is_moving = false
+		move_dir = Vector3.ZERO
+		velocity = Vector3.ZERO
+
+	move_and_slide()
 
 func _physics_process(delta):
+	if GameState.control_mode == "wasd":
+		handle_wasd_movement(delta)
+	else:
+		handle_mouse_movement(delta)
+	
+		
 	if Input.is_action_just_pressed("reflect"):
 		spawn_reflect()
 		
 	if is_teleporting:
 		velocity = Vector3.ZERO
 		return
-		
-	var target = navigation_agent_3d.get_next_path_position()
-	direction = target - global_position
-	direction.y = 0
 	
 	if Input.is_action_just_pressed("hide"):
 		hearts_hidden = not hearts_hidden
@@ -74,16 +132,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("fast_move"):
 		fast_move()
 
-	if direction.length() > 0.1:
-		velocity = direction.normalized() * SPEED
-	else:
-		velocity = Vector3.ZERO
-
-	move_and_slide()
-
 	# 🚶‍♂️ Detecta se realmente está se movendo (não apenas tentando)
-	if velocity.length() > 0.1:
-		var target_rotation = atan2(direction.x, direction.z)
+	if is_moving:
+		var target_rotation = atan2(move_dir.x, move_dir.z)
 		warlock.rotation.y = lerp_angle(warlock.rotation.y, target_rotation, delta * 10.0)
 
 		if anim_player.current_animation != "Walking":
