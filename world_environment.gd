@@ -11,6 +11,8 @@ var sfx_player: AudioStreamPlayer
 var fade_done := false
 var current_level_stage := 1
 var last_upgrade_kill := 0
+var BossScene = preload("res://boss.tscn")
+var credits_bonus_applied := false
 
 var music_player: AudioStreamPlayer
 var current_track := -1
@@ -30,6 +32,7 @@ var spawn_timer: Timer
 var stopped_spawning := false
 
 func _ready():
+	add_to_group("world")
 	warlock_player = get_node("../Warlock")
 
 	music_player = AudioStreamPlayer.new()
@@ -47,6 +50,7 @@ func _ready():
 	spawn_timer.timeout.connect(_spawn_enemy)
 	add_child(spawn_timer)
 
+
 func _process(delta):
 	_update_enemy_kills()
 	total_time += delta
@@ -57,6 +61,7 @@ func _process(delta):
 	var min_str = "0" + str(minutes) if minutes < 10 else str(minutes)
 	var sec_str = "0" + str(seconds) if seconds < 10 else str(seconds)
 	timescore.text = min_str + ":" + sec_str
+	
 
 	# Se aguentar 90 segundos e matar 60 bonecos - Chega no Boss
 	if not stopped_spawning and total_time >= 90 and GameState.enemy_kills >= 60:
@@ -84,6 +89,12 @@ func _process(delta):
 
 		level_text.text = "You have the chance to see him..."
 		_do_level_fade()
+		
+		await get_tree().create_timer(1.0).timeout
+		var boss = BossScene.instantiate()
+		add_child(boss)
+
+		boss.global_position = Vector3(0, 1.5, 2)
 	
 	# A cada 5 bonecos mortos o Player vai ganhar um Buff
 	if GameState.enemy_kills != last_upgrade_kill:
@@ -181,6 +192,11 @@ func _process(delta):
 		current_level_stage = 1
 		level_text.text = "Calm Before the Storm"
 		_do_level_fade()
+		
+	if GameState.credits_opened >= 10:
+		warlock_player.fireball_speed = max(warlock_player.fireball_speed, 40)
+		warlock_player.fireball_cast_delay = min(warlock_player.fireball_cast_delay, 0.2)
+		warlock_player.SPEED = max(warlock_player.SPEED, 13)
 
 func _play_next_track():
 	current_track = (current_track + 1) % tracks.size()
@@ -246,3 +262,39 @@ func _do_upgrade_fade():
 	
 func _update_enemy_kills():
 	enemykilled.text = " Enemies Killed: %d" % GameState.enemy_kills
+	
+func _on_boss_died():
+	level_text.text = "You defeated the Square Head!"
+	await get_tree().create_timer(2.0).timeout
+	_do_boss_fade()
+	await get_tree().create_timer(3.0).timeout
+	GameState.end_run()
+	get_tree().change_scene_to_file("res://MainMenu.tscn")
+
+func _do_boss_fade():
+	level_text.visible = true
+	
+	# 🔥 começa vermelho forte
+	level_text.modulate = Color(0.9, 0.1, 0.1, 1.0)
+
+	var tween = create_tween()
+
+	# 🔥 fade in + muda pra dourado
+	tween.parallel().tween_property(level_text, "modulate:a", 1.0, 1.0)
+	tween.parallel().tween_property(level_text, "modulate", Color(1.0, 0.75, 0.2, 1.0), 1.0)
+
+	# ⏳ segura mais tempo (dramático)
+	tween.tween_interval(2.0)
+
+	# 🌫️ fade out lento
+	tween.tween_property(level_text, "modulate:a", 0.0, 1.5)
+
+	# 🔊 SOM DE VITÓRIA (fora da cena pra não morrer)
+	var sfx = AudioStreamPlayer.new()
+	get_tree().root.add_child(sfx)
+
+	sfx.stream = load("res://victory.mp3")
+	sfx.volume_db = 5
+	sfx.play()
+
+	sfx.finished.connect(sfx.queue_free)

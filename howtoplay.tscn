@@ -101,12 +101,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -645.5
-offset_top = -109.0
-offset_right = 645.5
-offset_bottom = 109.0
+offset_left = -552.0
+offset_top = -101.0
+offset_right = 739.0
+offset_bottom = 191.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.8, 1)
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1664995338]
 custom_minimum_size = Vector2(70, 70)
@@ -122,6 +123,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
 theme_override_font_sizes/font_size = 32
 text = "Kill 60 enemies, try to survive for 1 minute and 30 seconds and find out for yourself."
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="VBoxContainer" unique_id=1738187877]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.39607844, 0.3882353, 1)
+theme_override_font_sizes/font_size = 32
+text = "Maybe... 20 Fireballs are enough... ? Don´t know..."
 horizontal_alignment = 1
 
 [node name="Label4" type="Label" parent="VBoxContainer" unique_id=1105549797]

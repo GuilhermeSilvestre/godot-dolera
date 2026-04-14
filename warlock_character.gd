@@ -168,13 +168,6 @@ func _on_enemy_collision(enemy_node: Node) -> void:
 	
 	take_damage()
 
-	var hurt_sound = AudioStreamPlayer3D.new()
-	hurt_sound.stream = load("res://Sounds/hurt.mp3")
-	hurt_sound.volume_db = -4
-	add_child(hurt_sound)
-	hurt_sound.play()
-	hurt_sound.finished.connect(hurt_sound.queue_free)
-
 	# Diminui velocidade temporariamente
 	var old_speed = SPEED
 	SPEED = BASE_SPEED * 0.4
@@ -366,14 +359,25 @@ func spawn_reflect():
 	await get_tree().create_timer(4.0).timeout
 	can_reflect = true
 	
-func take_damage() -> void:
-	life = life -1
+func take_damage(amount := 1) -> void:
+	if is_dying:
+		return
+	life -= amount
 	print("💔 Warlock HP:", life)
+
 	update_hearts()
-	
+
+	# 🔊 SOM DE DANO (AGORA GLOBAL)
+	var hurt_sound = AudioStreamPlayer3D.new()
+	hurt_sound.stream = load("res://Sounds/hurt.mp3")
+	hurt_sound.volume_db = -4
+	add_child(hurt_sound)
+	hurt_sound.play()
+	hurt_sound.finished.connect(hurt_sound.queue_free)
+
 	if life <= 0:
 		die()
-	
+		
 func die() -> void:
 	if is_dying:
 		return

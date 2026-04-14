@@ -3,6 +3,7 @@ extends Node
 var enemy_kills: int = 0
 var last_run_kills: int = 0
 var highscore: int = 0
+var credits_opened: int = 0
 
 var control_mode := "wasd"
 
@@ -20,3 +21,7 @@ func end_run():
 		highscore = enemy_kills
 	
 	enemy_kills = 0
+
+func open_credits():
+	credits_opened += 1
+	print("📊 Credits opened:", credits_opened)

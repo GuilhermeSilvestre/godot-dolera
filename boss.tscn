@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bhwbwuo1dma2a"]
+
+[ext_resource type="PackedScene" uid="uid://33u070ichx16" path="res://boss2.glb" id="1_0bnu1"]
+[ext_resource type="Script" uid="uid://bj3b8727vmc81" path="res://boss.gd" id="1_6xxrv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6xxrv"]
+size = Vector3(1.4033203, 1, 0.8720703)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_skx2t"]
+size = Vector3(1.3126831, 0.9259033, 0.62384033)
+
+[node name="Boss" type="CharacterBody3D" unique_id=1798148635]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+script = ExtResource("1_6xxrv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1881386944]
+transform = Transform3D(7.6125216, 0, 0, 0, 11.584037, 0, 0, 0, 14.621799, -0.2774887, 0.4780142, -1.4286293)
+shape = SubResource("BoxShape3D_6xxrv")
+
+[node name="boss2" parent="CollisionShape3D" unique_id=391136910 instance=ExtResource("1_0bnu1")]
+transform = Transform3D(0.13136251, 0, 0, 0, 0.08632569, 0, 0, 0, 0.06839103, -0.002675064, -0.041264907, -0.02010198)
+
+[node name="HitArea" type="Area3D" parent="." unique_id=1625254611]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea" unique_id=384130590]
+transform = Transform3D(8.164883, 0, 0, 0, 11.232005, 0, 0, 0, 20.75385, -0.30509293, 0.05691749, -1.3172423)
+shape = SubResource("BoxShape3D_skx2t")
